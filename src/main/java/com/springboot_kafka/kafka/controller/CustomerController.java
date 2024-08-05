@@ -4,7 +4,7 @@ import com.springboot_kafka.kafka.dto.CustomerDTO;
 import com.springboot_kafka.kafka.model.Customer;
 import com.springboot_kafka.kafka.services.KafkaProducerService;
 import com.springboot_kafka.kafka.utils.ResponseUtil;
-
+import com.springboot_kafka.kafka.common.Urls;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/customers")
+@RequestMapping("/api")
 public class CustomerController {
 
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
@@ -24,7 +24,7 @@ public class CustomerController {
     @Autowired
     private KafkaProducerService kafkaProducerService;
 
-    @PostMapping("/create")
+    @PostMapping(Urls.CREATE_CUSTOMER_KAFKA)
     public ResponseEntity<Map<String, Object>> createCustomer(@RequestBody CustomerDTO customer) {
         logger.info("Create data customer: {}", customer);
         kafkaProducerService.sendMessage(customer);
